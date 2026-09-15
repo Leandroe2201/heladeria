@@ -1,0 +1,9 @@
+HELADERÍA V8 - ACTUALIZACIÓN SIN BASE DE DATOS
+
+1. Cerrar el sistema de escritorio y el servidor web.
+2. Copiar todo el contenido de esta carpeta encima de la instalación actual.
+3. Reemplazar los archivos cuando Windows lo pregunte.
+4. NO se incluye data/heladeria.db: tus ventas, clientes, puntos y configuraciones se conservan.
+5. Iniciar normalmente con iniciar.bat.
+
+NOVEDAD: F9 / CANJEAR PUNTOS en la pantalla principal de Ventas.

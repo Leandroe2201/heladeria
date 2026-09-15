@@ -1,0 +1,23 @@
+# Sistema Integral de Heladería - V10
+
+## Fidelidad y Portal
+- Tarjeta de fidelidad numérica aleatoria y única de 8 dígitos, sin prefijo FID.
+- Migración automática de tarjetas antiguas FID-* al iniciar V10.
+- DNI normalizado y único en toda la base. No puede duplicarse desde escritorio, Web ni Portal.
+- Portal con cuenta y contraseña propia.
+- Inicio de sesión con correo + contraseña o DNI + contraseña.
+- Contraseñas almacenadas con hash seguro (Werkzeug), nunca en texto plano.
+- El cliente ve tarjeta, saldo, movimientos de puntos, beneficios y productos.
+- Si el DNI ya existe en CRM pero aún no tiene cuenta Portal, se vincula al cliente existente validando teléfono; nunca crea otro cliente.
+
+## Accesos
+- Administrador: PIN 2580.
+- ROMAN DANIELA MIRIAM: PIN 4750, operador restringido.
+
+## Arranque
+- Escritorio: iniciar.bat
+- Web: iniciar_web.bat
+- Portal: http://IP-DE-LA-PC:5050/club
+- QR de alta: Panel Web > QR Clientes
+
+Para actualizar una instalación existente usá el ZIP actualización V10 sin DB. No reemplaza data/heladeria.db.

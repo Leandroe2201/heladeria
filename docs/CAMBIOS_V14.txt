@@ -1,0 +1,17 @@
+V14 - PEDIDOS WEB EN TIEMPO REAL
+
+- Seguimiento cliente cada 2 segundos, sin recarga.
+- Línea visual de progreso en Portal.
+- Nuevo flujo: EN PROCESO > EN PREPARACIÓN > PREPARADO > ENVIADO > ENTREGADO.
+- Aprobar transferencia = PAGO_APROBADO + EN PREPARACIÓN.
+- Corrección robusta de aprobación desde escritorio: las excepciones ya no cierran la aplicación.
+- Rechazo de transferencia con motivo obligatorio.
+- RECHAZADO separado de CANCELADO.
+- Cancelación de pedido pagado por transferencia genera PENDIENTE_REINTEGRO.
+- Confirmación manual REINTEGRADO.
+- Pedidos terminales no admiten cambios operativos.
+- Reclamos del cliente únicamente por gustos incorrectos y solo después de ENTREGADO.
+- Gestión de reclamos desde detalle de pedido Web.
+- Portal rediseñado violeta/naranja/azul para iPhone.
+- Selector de gustos más visual con contador y límite.
+- Historial de estados/auditoría por pedido.

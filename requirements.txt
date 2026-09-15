@@ -1,0 +1,6 @@
+PyQt6==6.9.1
+Flask>=3.1,<4
+waitress>=3.0,<4
+
+pywin32>=306; platform_system=="Windows"
+qrcode[pil]>=8.0,<9

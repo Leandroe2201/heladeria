@@ -1,0 +1,16 @@
+HELADERÍA V17 · PANEL WEB ADMIN RESPONSIVE
+
+- El Panel Web administrativo se adapta automáticamente al ancho de pantalla.
+- En iPhone / Android / pantallas angostas aparece una barra superior fija con botón ☰.
+- El menú administrativo pasa a ser un cajón lateral (drawer) con scroll vertical.
+- Secciones del menú agrupadas: Operación, Catálogo y clientes, Herramientas.
+- El menú se puede cerrar tocando fuera, seleccionando una opción o con Escape.
+- Se respetan las safe areas de iPhone mediante env(safe-area-inset-*).
+- Formularios pasan a una columna en móvil y usan fuente de 16px para evitar zoom automático de iOS.
+- Botones y controles tienen altura táctil mínima de 44px.
+- Tablas administrativas dejan de depender del scroll horizontal en celular: se convierten automáticamente en tarjetas con nombre de campo + valor.
+- Ventas, reportes, productos, stock, puntos, clientes, pedidos, caja y demás vistas heredan este comportamiento sin duplicar plantillas.
+- En escritorio se conserva el menú horizontal tradicional.
+- La impresión de reportes mantiene formato de tabla normal.
+
+La detección combina ancho de viewport y dispositivos con puntero táctil grueso. No modifica la base de datos.

@@ -1,0 +1,20 @@
+V12 - RECUPERACION Y RESETEO DE CLAVE DEL PORTAL
+
+1. Portal del Cliente
+- En /club/login se agrega el botón "¿Olvidaste tu contraseña?".
+- Validación de identidad por DNI + fecha de nacimiento + últimos 4 dígitos de la tarjeta de fidelidad.
+- Si los datos coinciden, se habilita por 10 minutos la creación de una nueva contraseña.
+- La contraseña nueva se almacena con hash; nunca se muestra ni se guarda en texto plano.
+- Los intentos y reseteos quedan registrados en audit_log.
+- Para nuevas registraciones, la fecha de nacimiento pasa a ser obligatoria.
+
+2. Panel Web administrativo
+- En Clientes / CRM > ficha del cliente se muestra el estado de su cuenta del Portal.
+- Si tiene cuenta, se habilita "RESETear contraseña del Portal" con doble ingreso de la nueva clave.
+- El cambio reactiva la cuenta y queda auditado como RESET_CLAVE_PORTAL.
+- Si el cliente todavía no posee cuenta Portal, la ficha lo informa y no inventa una cuenta nueva.
+
+3. Compatibilidad
+- No cambia ni reemplaza data/heladeria.db.
+- No modifica tarjetas, DNI, puntos, ventas ni movimientos existentes.
+- Los clientes antiguos sin fecha de nacimiento pueden resolver el acceso mediante el reseteo administrativo.

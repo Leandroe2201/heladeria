@@ -1,0 +1,20 @@
+V9
+==
+- Login por PIN al iniciar el escritorio.
+- Usuario ROMAN DANIELA MIRIAM, PIN 4750, rol OPERADOR.
+- Restricción de módulos por rol.
+- Botón CAJA en Ventas para apertura/cierre.
+- Chat interno Caja <-> Panel Web.
+- Descuento porcentual manual por venta.
+- Registro de descuento manual en base/ticket/auditoría.
+- Web rediseñada y responsive para iPhone.
+- Ventas Web con hora exacta, operador, cliente, descuentos y puntos.
+- Reporte de ventas imprimible/PDF por rango.
+- Alta/edición de productos desde Web.
+- Ajustes de stock/sabores desde Web.
+- Puntos por excepción desde Web con motivo y auditoría.
+- CRM Web detallado.
+- Portal cliente público /club.
+- Alta de fidelidad por QR.
+- Tarjeta de fidelidad Web por enlace personal.
+- Catálogo/ofertas para clientes.

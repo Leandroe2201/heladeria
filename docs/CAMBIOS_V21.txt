@@ -1,0 +1,43 @@
+HELADERÍA LOS NIETOS · V21
+==========================
+
+MERCADO PAGO ONLINE · REDIRECCIÓN AL CHECKOUT OFICIAL
+------------------------------------------------------
+- El pago Web con Mercado Pago ya no usa el formulario de tarjeta embebido de V20.
+- Al confirmar un pedido con MERCADO PAGO, el backend crea una Order ONLINE mediante API de Orders.
+- Se envía el importe exacto del pedido y se guarda la relación con el pedido local.
+- Mercado Pago devuelve checkout_url y el cliente es redirigido al entorno oficial de Mercado Pago.
+- En celular, Mercado Pago decide si continúa en la app o en su entorno Web según disponibilidad/sesión.
+- Al volver al Portal, el pedido sigue consultando el estado de la Order; cuando queda acreditada pasa a:
+  PAGO APROBADO -> EN PREPARACIÓN.
+- Se conserva X-Idempotency-Key para evitar duplicar la creación accidental de una Order.
+- El botón de reintento regenera una Order online; ya no intenta generar un QR presencial.
+
+CONFIGURACIÓN ONLINE / QR SEPARADAS
+-----------------------------------
+- Mercado Pago Online requiere: Habilitado + Access Token.
+- La Public Key queda como dato opcional/legado y no bloquea el redirect V21.
+- External POS ID NO se requiere para Mercado Pago Online.
+- External POS ID se usa exclusivamente para QR presencial cuando exista una caja/POS asociada en Mercado Pago.
+- La falta de caja QR no bloquea los pagos Web.
+
+RETIRO EN LOCAL · PRUEBA DE $ 0,01
+----------------------------------
+- Retiro en local sigue siendo conceptualmente sin costo.
+- Para pruebas de integración se aplica un cargo técnico configurable inicial de $ 0,01.
+- El checkout, pedido y ticket muestran el importe con centavos.
+- Configurable desde:
+  * Sistema central -> Configuración -> Retiro en local · costo prueba.
+  * Panel Web -> Delivery / Pagos -> Retiro en local · costo técnico de prueba.
+- Para producción se puede volver a $ 0,00.
+
+NOTA SOBRE CREDENCIALES DE PRUEBA
+---------------------------------
+Algunas operaciones de Checkout Pro vía API de Orders pueden exigir el esquema de sandbox/usuarios de prueba definido por Mercado Pago. Si Mercado Pago devuelve invalid_credentials indicando que esas credenciales de prueba no son compatibles, el sistema muestra un mensaje explicativo. No compartir nunca el Access Token.
+
+INSTALACIÓN
+-----------
+1. Cerrar el sistema de escritorio y el servidor Web.
+2. Descomprimir heladeria_actualizacion_v21_sin_db.zip sobre la instalación actual y reemplazar archivos.
+3. Ejecutar iniciar.bat e iniciar_web.bat nuevamente.
+4. La actualización NO contiene data/heladeria.db.

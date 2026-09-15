@@ -1,0 +1,35 @@
+HELADERÍA - CAMBIOS V6
+======================
+
+1. IMPRESIÓN TÉRMICA 58/80/85 MM
+- Nuevo backend RAW ESC/POS directo al spooler de Windows.
+- Recomendado para impresoras térmicas genéricas de 58 mm.
+- Evita el caso en el que Qt/driver acepta el trabajo pero el papel sale vacío.
+- Se mantiene Windows/Gráfico como alternativa.
+- Corte automático DESACTIVADO por defecto.
+- Avance final configurable.
+- Requiere pywin32 (incluido en requirements.txt para Windows).
+
+IMPORTANTE: después de actualizar ejecutar instalar_dependencias.bat una vez.
+
+2. PANEL WEB / CRM
+- Nuevo menú CLIENTES.
+- Buscar por DNI, nombre o teléfono.
+- Alta de clientes desde la web.
+- Editar DNI, nombre, teléfono, dirección, fecha de nacimiento, notas y estado.
+- Muestra tarjeta de fidelidad, puntos, compras, total comprado y última compra.
+- Historial de ventas por cliente.
+- Buscador rápido de clientes en el Inicio.
+- Estado de caja más visible en Inicio y Caja.
+- Ventas y Pedidos muestran cliente/DNI cuando existe.
+
+3. CONFIGURACIÓN GENERAL
+- Botón GUARDAR CAMBIOS visible en la parte superior.
+- Segundo botón grande al final.
+- Atajos F10 y Ctrl+S.
+- Verificación inmediata del valor guardado.
+- El nombre del negocio se refresca al volver a la pantalla de Ventas.
+
+4. COMPATIBILIDAD
+- La actualización sin DB no reemplaza data/heladeria.db.
+- No se requieren columnas nuevas para esta versión.

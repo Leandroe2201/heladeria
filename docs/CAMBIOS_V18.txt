@@ -1,0 +1,37 @@
+HELADERÍA - CAMBIOS V18
+=======================
+
+1. TARJETA DIGITAL DE FIDELIDAD
+- Visible en /club y /club/cuenta.
+- Número de tarjeta de 8 dígitos.
+- Código de barras Code 39 local.
+- Nombre de la heladería + ícono de helado + titular.
+
+2. CANJE ONLINE
+- Botón CANJEAR ONLINE en beneficios habilitados.
+- Selección de beneficio durante checkout.
+- Producto gratis, descuento fijo y porcentaje según configuración existente.
+- Un beneficio por pedido.
+- Reserva/descuento de puntos al confirmar el pedido.
+- Reintegro automático de puntos si se CANCELA o RECHAZA el pedido.
+- Al ENTREGAR se vincula el canje con la venta y se acreditan los puntos de compra correspondientes.
+
+3. DELIVERY
+- Costo inicial: $2.500.
+- Retiro en local: $0.
+- Editable en Configuración del escritorio y Delivery/Pagos del Panel Web.
+- El envío no suma puntos.
+- Checkout, ticket y detalle muestran Productos / Canje / Envío / TOTAL.
+
+4. BASE DE DATOS
+Nuevos campos compatibles con bases existentes:
+- orders.merchandise_subtotal
+- orders.delivery_fee
+- orders.loyalty_reward_id
+- orders.loyalty_reward_name
+- orders.loyalty_points_redeemed
+- orders.loyalty_discount
+- orders.loyalty_redemption_refunded
+- loyalty_movements.order_id
+
+La actualización SIN DB no reemplaza data/heladeria.db.

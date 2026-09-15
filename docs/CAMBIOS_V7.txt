@@ -1,0 +1,7 @@
+V7 - Corrección selector de gustos + comprobante de fidelidad
+
+- Se corrigió el cierre al tocar un helado: FlavorDialog referenciaba un atributo inexistente.
+- Se agregó ticket separado de fidelidad cuando una venta suma o canjea puntos.
+- El comprobante muestra cliente, DNI, tarjeta, venta, saldo anterior, puntos sumados/canjeados y saldo actual.
+- Se agregó un interruptor para activar/desactivar el comprobante separado.
+- Se agregó reimpresión manual del comprobante desde Tickets de venta.

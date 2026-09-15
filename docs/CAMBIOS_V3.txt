@@ -1,0 +1,40 @@
+HELADERIA - CAMBIOS V3
+======================
+
+1) PANEL WEB CONECTADO A LA MISMA BASE
+- Nuevo módulo: Opciones > Panel Web.
+- Se inicia/detiene desde el sistema de escritorio.
+- Acceso desde otra PC o celular de la red local.
+- PIN web configurable (inicial: 2580).
+- Puerto configurable (inicial: 5050).
+- Inicio automático opcional.
+- Dashboard con ventas de hoy, tickets, ventas del mes, ticket promedio y pedidos pendientes.
+- Ventas con detalle de cada ticket: producto, cantidad, sabores, precio y total.
+- Stock de sabores e insumos con alertas.
+- Pedidos con cambio de estado desde la web.
+- Caja del día separada por medios de pago.
+- Consulta del catálogo de productos.
+- Endpoint básico /api/dashboard.
+
+2) TICKETS TERMICOS
+- Módulo Opciones > Tickets / Impresora.
+- Ancho configurable: 58 mm, 80 mm o 85 mm.
+- Impresora de Windows configurable.
+- Datos de cabecera editables: nombre, dirección, teléfono y pie.
+- Ticket de venta con productos, sabores, ofertas, subtotal, descuento, total y forma de pago.
+- Ticket/comanda de pedido con tipo, cliente, teléfono, dirección, productos, sabores, observaciones, total y estado.
+- Vista previa antes de imprimir.
+- Reimpresión de ventas y pedidos anteriores.
+- Opción de impresión automática al cobrar o guardar un pedido.
+- Botón de imprimir directamente desde Pedidos.
+
+3) BASE DE DATOS
+- SQLite ahora usa WAL + busy_timeout para permitir mejor convivencia escritorio/web.
+- Nuevas configuraciones persistentes sin borrar datos existentes.
+
+USO RECOMENDADO
+- Ejecutar instalar_dependencias.bat una vez para incorporar Flask y Waitress.
+- Abrir el sistema normalmente con iniciar.bat.
+- Entrar a Opciones > Panel Web y pulsar INICIAR PANEL WEB.
+- El sistema muestra la URL local para abrir desde teléfono/otra PC.
+- Para configurar tickets: Opciones > Tickets / Impresora.

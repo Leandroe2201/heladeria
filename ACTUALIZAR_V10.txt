@@ -1,0 +1,13 @@
+ACTUALIZACIÓN V10
+
+1. Cerrá el sistema de escritorio y el servidor Web.
+2. Copiá todo el contenido de este ZIP encima de tu carpeta actual y aceptá reemplazar archivos.
+3. NO borra ni reemplaza data/heladeria.db.
+4. Ejecutá instalar_dependencias.bat si venís de una versión antigua.
+5. Iniciá nuevamente con iniciar.bat e iniciar_web.bat.
+
+Al primer inicio V10:
+- migra tarjetas FID-* a números aleatorios únicos de 8 dígitos;
+- normaliza y protege DNI contra duplicados;
+- crea las tablas de acceso del Portal de Clientes;
+- conserva puntos, ventas y movimientos existentes.

@@ -1,0 +1,17 @@
+MERCADO PAGO · PASAR A PRODUCCIÓN
+=================================
+
+1. Entrar a Mercado Pago Developers -> Tus integraciones -> Heladería Los Nietos.
+2. Abrir Producción -> Credenciales de producción.
+3. Activar credenciales productivas si todavía no están activas. Mercado Pago solicita rubro, sitio web y aceptación de términos.
+4. Copiar el Access Token PRODUCTIVO. No compartirlo ni enviarlo por chat.
+5. En Heladería Los Nietos: Panel Web -> Delivery / Pagos -> Mercado Pago Online.
+6. Pegar el Access Token PRODUCTIVO en el campo correspondiente y guardar.
+   Si ya había un token de prueba, el nuevo token lo reemplaza.
+7. La Public Key productiva puede guardarse también, aunque el redirect Checkout Pro / Orders actual no la necesita para crear la orden desde backend.
+8. External POS ID queda vacío hasta configurar QR presencial.
+9. Generar un PEDIDO NUEVO para probar producción. Las órdenes anteriores creadas con credenciales de prueba siguen siendo de prueba y no se convierten.
+
+RETIRO EN LOCAL
+----------------
+V22 fija retiro en local en $0,00 (SIN CARGO).

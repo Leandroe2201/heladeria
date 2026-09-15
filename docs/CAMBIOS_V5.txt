@@ -1,0 +1,36 @@
+CAMBIOS V5 - INTERFAZ / F12 / WEB / IMPRESORA
+
+1. VENTAS
+- F12 abre el cobro desde cualquier parte de la pantalla de ventas.
+- Se eliminó el combo pequeño de forma de pago de la pantalla principal.
+- Nuevo diálogo táctil con botones grandes: EFECTIVO, DÉBITO, CRÉDITO y QR/TRANSFERENCIA.
+- Después del medio de pago continúa el flujo por DNI/Fidelidad/Puntos.
+- Botón principal ahora dice F12 · COBRAR.
+- PEDIDOS sigue visible junto a ADMINISTRACIÓN.
+- Botones de productos con color consistente por familia y más contraste.
+
+2. GUSTOS / SABORES
+- Selector visual más grande.
+- Separación por Cremas / Frutales / Premium / Otros.
+- Muestra el orden de selección: 1, 2, 3...
+- Contador visible de gustos elegidos y botón para borrar selección.
+- Se reutiliza el mismo selector en Pedidos.
+
+3. IMPRESORA
+- Las casillas pequeñas fueron reemplazadas por interruptores grandes ACTIVO/DESACTIVADO.
+- Los interruptores se guardan al tocarlos.
+- Se agregó IMPRIMIR TICKET DE PRUEBA.
+- Continúa soporte 58 / 80 / 85 mm y reimpresión de ventas/pedidos.
+
+4. PANEL WEB
+- Al entrar a Opciones > Panel Web, intenta iniciarse automáticamente.
+- Estado grande: SERVIDOR WEB ACTIVO/APAGADO.
+- Muestra la URL exacta para abrir desde otro equipo.
+- Botones Abrir, Copiar dirección, Reiniciar y Detener.
+- Detecta también un servidor levantado por iniciar_web.bat si el puerto está activo.
+- Nuevas instalaciones dejan el auto-inicio web activado por defecto.
+
+5. CONFIGURACIÓN GENERAL
+- Configuración ahora se guarda realmente.
+- Nombre, dirección, teléfono y PIN de administración son editables.
+- El PIN inicial continúa siendo 2580.

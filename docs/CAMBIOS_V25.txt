@@ -1,0 +1,9 @@
+HELADERÍA LOS NIETOS · V25
+
+- Pedidos del instalable: por defecto muestra pedidos ACTIVOS de HOY. Filtros por hoy, ayer, últimos 7 días, fecha elegida o historial completo; estados separados.
+- Botones de Confirmar/Rechazar/Actualizar Mercado Pago responden al seleccionar un pedido y muestran explicación si la acción no corresponde.
+- Clientes / CRM: no lista toda la base al abrir. Se busca por DNI, número de tarjeta o apellido/nombre y se abre el legajo.
+- Cliente: botón Movimientos / Historial con puntos, saldo y regeneraciones de tarjeta.
+- Productos: no lista todo el catálogo al abrir. Se busca por nombre/código o se usa VER ACTIVOS. Alta y edición siguen integradas en la ficha.
+- Configuración: nueva opción LIMPIAR BASE DE DATOS. Elimina datos operativos pero conserva usuarios/PIN, configuración y credenciales de Mercado Pago.
+- Antes de limpiar crea backup automático en data/backups/.

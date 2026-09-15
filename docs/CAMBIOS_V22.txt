@@ -1,0 +1,25 @@
+HELADERÍA LOS NIETOS · V22
+==========================
+
+RETIRO EN LOCAL
+----------------
+- Se elimina totalmente el cargo técnico de $0,01 usado en V21.
+- Retiro en local queda fijo en $0,00 / SIN CARGO.
+- La migración V22 actualiza pickup_fee a 0.00 sobre bases existentes.
+- El cliente ve RETIRO EN LOCAL · SIN CARGO.
+
+MERCADO PAGO PRODUCTIVO
+-----------------------
+- El panel diferencia claramente Mercado Pago Online productivo del QR presencial.
+- El campo se muestra como Access Token PRODUCTIVO.
+- Para pagos reales hay que usar Producción -> Credenciales de producción de la aplicación de Mercado Pago.
+- El redirect Checkout Pro / Orders continúa usando checkout_url oficial de Mercado Pago.
+- External POS ID no es necesario para pagos Web; solo para QR presencial.
+- Nunca compartir el Access Token.
+
+INSTALACIÓN
+-----------
+1. Cerrar sistema e iniciar_web.bat.
+2. Aplicar heladeria_actualizacion_v22_sin_db.zip sobre la instalación actual.
+3. Reemplazar archivos y reiniciar.
+4. La actualización no incluye data/heladeria.db.

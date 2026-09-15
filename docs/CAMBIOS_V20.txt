@@ -1,0 +1,74 @@
+HELADERÍA LOS NIETOS · V20
+===========================
+
+MERCADO PAGO ONLINE · CORRECCIÓN DE CONFIGURACIÓN
+---------------------------------------------------
+1. Se separó la configuración de Mercado Pago Online de Mercado Pago QR presencial.
+
+2. Mercado Pago Online (Checkout API / API de Orders) usa:
+   - Access Token: credencial privada utilizada únicamente por el servidor.
+   - Public Key: credencial pública utilizada por MercadoPago.js en el navegador.
+
+3. El External POS ID ya NO es requisito para habilitar Mercado Pago Online.
+   Ese campo queda reservado exclusivamente para la futura integración QR presencial.
+
+4. El Access Token ahora puede comprobarse visualmente desde Delivery / Pagos:
+   - NO CARGADA
+   - GUARDADA ✓
+   El campo se muestra vacío por seguridad después de guardar. Si se vuelve a guardar
+   la página con el campo vacío, la credencial existente se conserva.
+
+5. Estados de configuración:
+   - FALTA CONFIGURAR: no hay Access Token.
+   - ACCESS TOKEN GUARDADO · FALTA PUBLIC KEY: la credencial privada ya quedó guardada.
+   - ONLINE LISTO: Access Token + Public Key cargados y Mercado Pago habilitado.
+   - QR PRESENCIAL LISTO: además existe un External POS ID válido para QR.
+
+PAGOS ONLINE DEL CLIENTE
+------------------------
+En el checkout Web del cliente ahora se muestran las formas de pago:
+   - TRANSFERENCIA
+   - EFECTIVO
+   - MERCADO PAGO
+
+Mercado Pago queda seleccionable cuando la integración Online está lista. Si existe
+Access Token pero todavía falta la Public Key, Mercado Pago aparece deshabilitado con
+la indicación correspondiente, en lugar de desaparecer.
+
+Al seleccionar Mercado Pago:
+- se crea primero el pedido Web con el importe final exacto;
+- el cliente pasa al formulario seguro de Mercado Pago;
+- MercadoPago.js genera un token de tarjeta en el navegador;
+- Heladería Los Nietos recibe únicamente ese token temporal y crea una Order Online;
+- el Access Token nunca se envía al navegador;
+- si Mercado Pago acredita la operación, el pedido pasa a PAGO APROBADO y EN PREPARACIÓN.
+
+El flujo implementado utiliza Checkout API vía API de Orders, processing_mode=automatic
+con X-Idempotency-Key por operación.
+
+QR PRESENCIAL
+-------------
+La integración QR queda disponible pero separada. Para habilitarla más adelante hará
+falta crear la caja/POS en Mercado Pago y cargar su External POS ID. Dejar ese campo
+vacío NO impide cobrar por Mercado Pago Online.
+
+NOMBRE COMERCIAL
+----------------
+Los textos por defecto para nuevas instalaciones y nuevas órdenes de Mercado Pago se
+actualizaron a HELADERÍA LOS NIETOS.
+
+ACTUALIZACIÓN
+-------------
+La actualización V20 no incluye data/heladeria.db.
+Descomprimir sobre V19 reemplazando archivos y reiniciar el sistema Web/escritorio.
+
+Después de instalar:
+1. Panel Web > Delivery / Pagos.
+2. Marcar "Habilitar Mercado Pago en pedidos Web".
+3. Pegar Access Token y guardar.
+4. Volver a Mercado Pago Developers > Datos de integración > Pruebas > Credenciales.
+5. Copiar la Public Key y pegarla en Public Key.
+6. Guardar nuevamente.
+7. Debe aparecer ONLINE LISTO.
+
+Nunca compartir el Access Token por chat, captura o navegador del cliente.

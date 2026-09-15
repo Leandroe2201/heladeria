@@ -1,0 +1,32 @@
+HELADERÍA V16 · PEDIDOS WEB, PUNTOS Y SEGURIDAD
+
+1. PUNTOS EN VENTAS ONLINE
+- Al marcar un pedido Web como ENTREGADO se genera automáticamente una venta CONFIRMADA.
+- Se copian todos los productos, cantidades y gustos del pedido.
+- Se acreditan los puntos con la misma configuración del sistema presencial.
+- La acreditación es idempotente: el pedido queda enlazado a una sola venta y no puede duplicar puntos.
+- En el Portal el cliente ve los puntos estimados antes de enviar el pedido y los puntos acreditados después de la entrega.
+
+2. TRANSFERENCIA FRAUDULENTA
+- Si el rechazo contiene TRANSFERENCIA FRAUDULENTA, COMPROBANTE TRUCHO/ALTERADO, FALSO o equivalente, se bloquean nuevos pedidos por 2 horas.
+- El bloqueo se aplica tanto si el rechazo se hace desde Web Admin como desde el sistema central, porque ambos usan el mismo servicio.
+- El Portal muestra el motivo y una cuenta regresiva.
+- Vencido el plazo, el bloqueo temporal se limpia automáticamente.
+
+3. CLIENTES BLOQUEADOS / SUSPENDIDOS
+- Se agrega customer_status: ACTIVO / SUSPENDIDO / BLOQUEADO.
+- SUSPENDIDO y BLOQUEADO impiden crear pedidos Web, aunque el cliente puede seguir entrando a consultar su cuenta.
+- También se respeta active=0 y una cuenta de Portal deshabilitada.
+- Web CRM y Clientes de escritorio permiten ver/cambiar el estado.
+
+4. CARRITO MULTIPRODUCTO
+- Se pueden agregar varias líneas y varios productos antes del checkout.
+- Botón SEGUIR AGREGANDO.
+- Botón QUITAR por línea.
+- El carrito muestra unidades, líneas y total acumulado.
+- Un mismo producto puede agregarse varias veces con gustos distintos.
+
+5. COMPATIBILIDAD
+- Migración probada sobre una base V15 existente.
+- No se borra información.
+- La actualización SIN DB no contiene data/heladeria.db.

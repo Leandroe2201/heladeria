@@ -1,0 +1,15 @@
+HELADERIA - CAMBIOS V11
+
+CORRECCION CRITICA
+- Se corrigio el cierre al usar DESCUENTO % en Ventas.
+- Causa: faltaba importar QInputDialog en app/modules/ventas.py.
+
+MEJORA DEL FLUJO DE DESCUENTO
+- No permite abrir descuento si el carrito esta vacio.
+- Acepta valores entre 0% y 100%.
+- Antes de aplicar muestra operador, subtotal, porcentaje, importe descontado y total final.
+- Requiere confirmacion explicita.
+- Ingresar 0% elimina el descuento manual.
+- El porcentaje continua registrandose en la venta y en auditoria.
+
+Esta version mantiene todos los cambios de V10.

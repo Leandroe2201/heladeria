@@ -1,0 +1,43 @@
+heladeria_sistema_base/
+│
+├── main.py
+├── requirements.txt
+├── instalar_dependencias.bat
+├── iniciar.bat
+├── README.md
+│
+├── app/
+│   ├── config.py
+│   ├── database.py
+│   ├── main_window.py
+│   ├── styles.py
+│   │
+│   ├── services/
+│   │   ├── offer_service.py
+│   │   ├── sale_service.py
+│   │   └── stock_service.py
+│   │
+│   └── modules/
+│       ├── ventas.py
+│       ├── productos.py
+│       ├── sabores.py
+│       ├── stock.py
+│       ├── ofertas.py
+│       ├── pedidos.py
+│       ├── clientes.py
+│       ├── proveedores.py
+│       ├── compras.py
+│       ├── gastos.py
+│       ├── caja.py
+│       ├── reportes.py
+│       ├── usuarios.py
+│       ├── configuracion.py
+│       ├── impresora.py
+│       └── base.py
+│
+├── data/
+│   └── heladeria.db
+│
+└── docs/
+    ├── ROADMAP.md
+    └── ESTRUCTURA.txt

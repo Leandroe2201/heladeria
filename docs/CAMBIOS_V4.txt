@@ -1,0 +1,38 @@
+HELADERÍA - CAMBIOS V4
+======================
+
+1) IMPRESIÓN TÉRMICA
+- Se reemplazó la impresión HTML/QTextDocument por impresión directa con QPainter.
+- Evita el problema de tickets que la impresora aceptaba pero salían en blanco.
+- Anchos: 58 mm, 80 mm y 85 mm.
+- Ticket de venta: productos, gustos, ofertas, subtotal, descuentos, total, pago y fidelidad.
+- Ticket de pedido/comanda: tipo, cliente, teléfono, dirección, gustos, notas y total.
+
+2) VENTAS / POS
+- Botón PEDIDOS agregado junto a OPCIONES / ADMINISTRACIÓN.
+- Colores consistentes por familia de producto.
+- Filtros de categorías grandes.
+- Botones de productos más claros y legibles.
+- Selector de gustos por pestañas: Cremas / Frutales / Premium.
+- Contador y resumen de gustos seleccionados.
+
+3) PEDIDOS
+- Acceso directo desde la pantalla principal.
+- Tipos: Mostrador - retira luego, Retiro en local, Delivery, WhatsApp y Telefónico.
+- El selector de gustos es el mismo visual usado en Ventas.
+- DNI opcional para vincular el pedido con el cliente/fidelidad.
+
+4) FIDELIDAD / PUNTOS
+- Identificación por DNI al finalizar la venta.
+- Alta automática de tarjeta FID-XXXXXXXX.
+- Configuración editable de acumulación: importe base y puntos por tramo.
+- Catálogo editable de beneficios/canjes.
+- Tipos: descuento fijo, porcentaje, producto gratis.
+- Movimientos de acumulación/canje con saldo histórico.
+- Puntos sumados/canjeados impresos en el ticket.
+- Nuevo módulo Administración > Fidelidad / Puntos.
+- Panel web con consulta de clientes, beneficios y movimientos.
+
+5) BASE DE DATOS
+- Migración automática compatible con base V3 existente.
+- No hace falta borrar heladeria.db para actualizar.

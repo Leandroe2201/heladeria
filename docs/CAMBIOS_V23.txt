@@ -1,0 +1,56 @@
+HELADERÍA LOS NIETOS · V23
+==========================
+
+CLIENTES / PORTAL
+-----------------
+- Administración puede crear el acceso al Portal de un cliente existente.
+- El cliente puede iniciar con DNI + contraseña aunque no tenga correo.
+- Si se informa correo, también puede iniciar con correo + contraseña.
+- Se mantiene el reseteo administrativo de contraseña y la autogestión de “Olvidé mi contraseña”.
+- Fecha de nacimiento visible/cargable en formato DD/MM/AAAA en:
+  * alta/edición Web administrativa;
+  * registro del Portal;
+  * recuperación de contraseña;
+  * perfil del cliente;
+  * módulo Clientes del sistema de escritorio.
+- Internamente la base continúa guardando la fecha normalizada para mantener compatibilidad.
+
+TARJETA DE FIDELIDAD
+--------------------
+- Nueva gestión “REGENERAR TARJETA” por pérdida, extravío, deterioro o porque el cliente no recuerda el número.
+- Genera un nuevo número aleatorio único de 8 dígitos.
+- El número anterior queda invalidado al dejar de ser la tarjeta vigente del cliente.
+- No se pierden puntos, movimientos, ventas, canjes ni la cuenta del Portal.
+- Se registra historial de reemplazos en loyalty_card_history y auditoría.
+- Disponible desde:
+  * Panel Web -> Clientes / CRM -> ficha del cliente;
+  * Sistema central -> Clientes / CRM;
+  * Portal del cliente -> Mi cuenta.
+
+MERCADO PAGO / PEDIDOS
+----------------------
+- Mercado Pago vuelve a ser la fuente de verdad del pago online.
+- Cuando Mercado Pago informa el pago como acreditado:
+  * payment_status -> PAGO_APROBADO;
+  * status -> EN PREPARACIÓN;
+  * registra evento y auditoría automáticamente.
+- Ya no hace falta “confirmar” manualmente un pago de Mercado Pago.
+- El sistema central consulta periódicamente órdenes Mercado Pago pendientes mientras Pedidos Web está abierto.
+- Botón “ACTUALIZAR MERCADO PAGO” corregido para consultar el estado real de la orden.
+- “CONFIRMAR PAGO” queda para transferencias pendientes verificadas manualmente.
+- “RECHAZAR PAGO” queda para transferencias; Mercado Pago usa el estado informado por su API.
+- La ficha Web administrativa de un pedido también sincroniza Mercado Pago antes de mostrar el estado.
+
+BASE DE DATOS
+-------------
+- Migración no destructiva.
+- Se agrega loyalty_card_history para registrar reemplazos de tarjeta.
+- No se eliminan ni recrean clientes, puntos, ventas o pedidos.
+
+INSTALACIÓN
+-----------
+1. Cerrar el sistema de escritorio e iniciar_web.bat.
+2. Extraer heladeria_actualizacion_v23_sin_db.zip encima de la instalación V22.
+3. Reemplazar archivos cuando Windows lo solicite.
+4. Volver a iniciar el sistema y el servidor Web.
+5. La actualización NO incluye data/heladeria.db.

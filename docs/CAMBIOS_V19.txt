@@ -1,0 +1,63 @@
+HELADERÍA POPE · V19
+====================
+
+1. AVISO AUTOMÁTICO DE PEDIDOS WEB EN EL SISTEMA CENTRAL
+- El sistema central consulta la base cada ~1,6 segundos.
+- Al entrar un pedido WEB nuevo:
+  * emite un aviso sonoro;
+  * hace parpadear/alertar la ventana de Windows;
+  * muestra una banda naranja en Ventas con "NUEVO PEDIDO WEB";
+  * permite abrir Pedidos Web / Delivery;
+  * imprime automáticamente la comanda inicial si está habilitado.
+- Se registra central_notified_at y reception_printed_at para evitar duplicados.
+- Si el servidor Web está levantado en otro proceso, con "impresión central" activa la comanda inicial queda a cargo del POS.
+- Si el POS estuvo cerrado, al volver a abrir puede recuperar pedidos activos recientes no notificados/no impresos.
+
+2. OPERACIÓN RÁPIDA
+- Productos: selección con mouse/touch sobre los botones.
+- F12: cobrar / finalizar venta.
+- F9: canje de puntos.
+- SUPR: quitar producto seleccionado del carrito.
+- ESC: cerrar diálogos / volver a Ventas desde módulos internos.
+
+3. MERCADO PAGO QR CON IMPORTE EXACTO
+- Integración preparada con la API de Orders de Mercado Pago.
+- El pedido Web puede seleccionar "MERCADO PAGO" como forma de pago.
+- El backend crea una order de tipo QR con el total exacto.
+- Guarda el ID de la order, ID de pago, qr_data y estado de Mercado Pago.
+- El cliente ve el QR en el detalle del pedido.
+- El QR es único para la operación en modo dynamic.
+- Mientras no se acredite, el pedido queda en EN PROCESO / PENDIENTE_MERCADOPAGO.
+- Al detectar pago acreditado, cambia a PAGO_APROBADO y avanza automáticamente a EN PREPARACIÓN.
+- El portal y el sistema central sincronizan el estado periódicamente mediante GET /v1/orders/{id}.
+- Para producción se recomienda además configurar Webhooks "Order (Mercado Pago)" en una URL HTTPS pública.
+
+4. GENERAR QR DESDE EL SISTEMA CENTRAL
+- En Pedidos Web / Delivery aparece "MERCADO PAGO QR".
+- Permite crear el QR para el total exacto de un pedido y mostrarlo en pantalla.
+- También permite sincronizar el estado del pago desde la API.
+- Un pedido Mercado Pago no puede pasar a preparación hasta que el pago figure PAGO_APROBADO.
+
+5. CONFIGURACIÓN
+Panel Web > Delivery / Pagos:
+- Habilitar Mercado Pago.
+- Access Token (se usa solo del lado servidor; nunca se envía al navegador del cliente).
+- External POS ID de la caja creada en Mercado Pago.
+- Modo QR: dynamic recomendado / hybrid opcional.
+- Activar/desactivar sonido de pedido Web.
+- Activar/desactivar impresión desde sistema central.
+
+Mercado Pago requiere previamente:
+- una aplicación / credenciales;
+- Access Token;
+- una sucursal (Store);
+- una caja/POS asociada;
+- usar como External POS ID el mismo external_id configurado al crear la caja.
+
+SEGURIDAD
+- No compartir el Access Token por WhatsApp, correo, chat ni capturas.
+- Preferentemente cargar primero credenciales de prueba.
+- Para producción, usar credenciales productivas y HTTPS público para Webhooks.
+
+BASE DE DATOS
+La actualización agrega campos a orders mediante migración automática y NO requiere borrar data/heladeria.db.

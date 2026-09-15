@@ -1,0 +1,29 @@
+HELADERÍA LOS NIETOS · V24
+===========================
+
+REDISEÑO DEL SISTEMA INSTALABLE
+
+CLIENTES / CRM
+- Se elimina la ventanita chica como forma principal de edición.
+- Nuevo diseño de dos paneles: listado a la izquierda y ficha completa editable a la derecha.
+- Búsqueda por nombre, DNI, teléfono o tarjeta.
+- Filtro por ACTIVO / SUSPENDIDO / BLOQUEADO.
+- Ficha separada en Datos personales, Fidelidad, Estado/Pedidos Web y Observaciones.
+- Tarjeta, puntos, compras, estado de Portal e historial de reemplazos visibles en la misma ficha.
+- Regenerar tarjeta y levantar bloqueo temporal desde la misma pantalla.
+- Fecha de nacimiento en DD/MM/AAAA.
+
+PRODUCTOS
+- Se elimina la ventanita chica para alta/edición principal.
+- Catálogo a la izquierda y editor completo a la derecha.
+- Búsqueda por nombre/código.
+- Filtros por categoría y estado.
+- Alta, edición, precio, costo, sabores, categoría, orden y visibilidad en Ventas en una sola ficha.
+- Nueva categoría disponible desde el mismo editor.
+- Activar/desactivar producto sin salir de la ficha.
+
+MEJORAS GENERALES
+- Tablas más legibles, filas con más espacio y selección más clara.
+- Scroll vertical más visible.
+- Diseño pensado para uso con mouse y operadores con poca experiencia.
+- Sin cambios destructivos de base de datos.

@@ -1,0 +1,13 @@
+HELADERÍA V8 - CANJE DIRECTO DE PUNTOS
+
+- Nuevo botón F9 · CANJEAR PUNTOS en Ventas.
+- Busca cliente por DNI sin crear tarjetas nuevas durante un canje.
+- Muestra tarjeta, saldo actual y beneficios que el cliente ya puede canjear.
+- Canje directo para beneficios PRODUCTO_GRATIS con producto asignado.
+- Si el producto admite gustos, abre el mismo selector visual de sabores.
+- El canje descuenta puntos de forma atómica mediante save_sale.
+- Genera una venta por $0 con medio de pago CANJE DE PUNTOS.
+- Imprime automáticamente ticket de venta + comprobante de fidelidad/canje.
+- Ambos comprobantes muestran el beneficio canjeado.
+- El editor de beneficios exige producto para PRODUCTO_GRATIS.
+- No modifica ni reemplaza data/heladeria.db al usar el ZIP de actualización.

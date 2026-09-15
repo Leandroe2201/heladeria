@@ -1,0 +1,16 @@
+HELADERÍA V15 · GESTIÓN DE PEDIDOS EN ESCRITORIO
+
+- Reemplaza la ventana emergente de detalle de pedido por una pantalla maestro/detalle.
+- Lista de pedidos a la izquierda y gestión completa del pedido a la derecha.
+- Seguimiento visual: RECIBIDO → EN PREPARACIÓN → PREPARADO → ENVIADO → ENTREGADO.
+- Solo se habilita el siguiente estado válido; evita saltos accidentales.
+- Datos visibles en la misma pantalla: cliente, teléfono, dirección, zona, pago, vuelto, reintegro, productos, gustos, historial y notas.
+- Transferencias: aprobar, rechazar y abrir comprobante desde el panel de detalle.
+- Cancelación y reintegro desde la misma pantalla.
+- Actualización automática cada 2,5 segundos sin perder el pedido seleccionado.
+- Indicadores rápidos de pendientes, preparando, preparados y enviados.
+- Búsqueda por número de pedido, cliente, teléfono o dirección y filtro por estado.
+- Las acciones de pedidos registran el nombre del usuario logueado cuando está disponible.
+- Se eliminó el QMessageBox de "detalle" que antes solo mostraba texto y obligaba a cerrar la ventana.
+
+No requiere cambios de base de datos. Es compatible con la base V14/V13 existente.

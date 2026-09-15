@@ -1,0 +1,10 @@
+HELADERÍA - CAMBIOS V2
+
+- POS más colorido y fácil de usar.
+- CRUD real de Productos y Sabores.
+- Motor de ofertas: precio fijo, %, descuento, 2x1/NxM, cantidad por precio y combos.
+- Alta y seguimiento de Pedidos.
+- Caja muestra ventas reales y registra movimientos.
+- Alta/edición de Clientes, Proveedores y Stock.
+- Alta de Compras y Gastos.
+- Migraciones automáticas para base V1.

@@ -1,0 +1,33 @@
+V13 - PEDIDOS WEB / DELIVERY / TRANSFERENCIAS
+
+- Portal cliente autenticado: Hacer pedido, Mi perfil, Mis pedidos y Puntos.
+- Perfil con dirección de entrega y mapa Google Maps.
+- Validación de radio por Google Geocoding API cuando se configura API Key.
+- Sin API Key, la dirección queda A VERIFICAR y el mapa sigue siendo visible.
+- Catálogo Web conectado a productos del sistema.
+- Gustos Web tomados únicamente de sabores activos, disponibles y con stock > 0.
+- Carrito y checkout responsive para iPhone/celular.
+- Medios habilitados inicialmente: Transferencia y Efectivo.
+- Transferencia configurada por defecto:
+  Alias: heladeriapope
+  Titular: ENCINAS, leandro ezequiel
+  CUIL: 20372019485
+  Entidad: Personal Pay
+- CBU/CVU opcional configurable desde Panel Web > Delivery / Pagos.
+- Botón COPIAR para Alias y CBU/CVU cuando corresponda.
+- Adjuntar comprobante JPG/JPEG/PNG/WEBP/PDF (máximo general 6 MB).
+- Transferencia genera pedido EN PROCESO / PENDIENTE_VERIFICACION.
+- Impresión automática de ticket inicial: NO PREPARAR HASTA APROBAR PAGO.
+- Administración Web permite ver comprobante, aprobar o rechazar transferencia.
+- Al aprobar se imprime automáticamente el ticket final con productos y gustos.
+- Efectivo pregunta con cuánto paga y calcula el vuelto.
+- Panel Web incorpora Pedidos Web detallados y configuración Delivery/Pagos.
+- Sistema de escritorio Pedidos se actualiza cada 5 segundos y muestra origen/pago/zona.
+- Desde escritorio se puede aprobar transferencia y abrir el comprobante.
+- Ticket de pedidos incluye origen Web, estado de pago, zona, importe entregado y vuelto.
+- Impresión RAW ESC/POS V13 no requiere QApplication cuando imprime desde el servidor Web.
+- Estructura preparada para incorporar Mercado Pago más adelante.
+
+Google Maps:
+Para calcular automáticamente si una dirección entra en el radio hace falta configurar
+una Google Maps API Key con Geocoding API habilitada. El mapa visual puede abrirse sin esa clave.
