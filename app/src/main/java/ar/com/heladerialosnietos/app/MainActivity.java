@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.CookieManager;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
@@ -35,6 +36,9 @@ public class MainActivity extends Activity {
     private String fcmToken = "";
     private ValueCallback<Uri[]> filePathCallback;
     private static final int FILE_CHOOSER_CODE = 7002;
+    private static final String RAWBT_PACKAGE = "ru.a402d.rawbtprinter";
+    private static final String RAWBT_ACTION = "ru.a402d.rawbtprinter.action.PRINT_RAWBT";
+    private static final String RAWBT_EXTRA = "ru.a402d.rawbtprinter.extra.DATA";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +77,8 @@ public class MainActivity extends Activity {
         s.setDisplayZoomControls(false);
         s.setMediaPlaybackRequiresUserGesture(true);
         s.setUserAgentString(s.getUserAgentString() + " HeladeriaLosNietosAndroid/1.0");
+
+        webView.addJavascriptInterface(new RawBtBridge(), "AndroidRawBT");
 
         CookieManager.getInstance().setAcceptCookie(true);
         CookieManager.getInstance().setAcceptThirdPartyCookies(webView, true);
@@ -123,14 +129,27 @@ public class MainActivity extends Activity {
 
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-                if (request.isForMainFrame()) showOffline();
+                if (!request.isForMainFrame()) return;
+                String failingUrl = request.getUrl() == null ? "" : request.getUrl().toString();
+                if (failingUrl.startsWith("rawbt:") || failingUrl.startsWith("intent:")) {
+                    offlinePanel.setVisibility(View.GONE);
+                    webView.setVisibility(View.VISIBLE);
+                    return;
+                }
+                showOffline();
             }
         });
     }
 
     private boolean handleUrl(String url) {
         if (url == null) return false;
-        if (url.startsWith("intent://")) {
+        if (url.startsWith("rawbt:")) {
+            String payload = url.substring("rawbt:".length());
+            try { payload = Uri.decode(payload); } catch (Exception ignored) {}
+            sendToRawBt(payload);
+            return true;
+        }
+        if (url.startsWith("intent:")) {
             try {
                 Intent intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
                 startActivity(intent);
@@ -150,6 +169,39 @@ public class MainActivity extends Activity {
             return true;
         }
         return false;
+    }
+
+    private void sendToRawBt(String text) {
+        final String payload = text == null ? "" : text;
+        runOnUiThread(() -> {
+            try {
+                Intent intent = new Intent(RAWBT_ACTION);
+                intent.putExtra(RAWBT_EXTRA, payload);
+                intent.setPackage(RAWBT_PACKAGE);
+                startActivity(intent);
+                return;
+            } catch (Exception ignored) {}
+
+            try {
+                Intent viewIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("rawbt:" + payload));
+                viewIntent.setPackage(RAWBT_PACKAGE);
+                startActivity(viewIntent);
+                return;
+            } catch (Exception ignored) {}
+
+            try {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + RAWBT_PACKAGE)));
+            } catch (Exception ignored) {
+                try { startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + RAWBT_PACKAGE))); } catch (Exception ignored2) {}
+            }
+        });
+    }
+
+    private class RawBtBridge {
+        @JavascriptInterface
+        public void print(String text) {
+            sendToRawBt(text);
+        }
     }
 
     private boolean isMercadoPagoUrl(String url) {
