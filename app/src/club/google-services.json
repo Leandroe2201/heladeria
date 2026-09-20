@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "911914831945",
+    "project_id": "heladeria-los-nietos-2026",
+    "storage_bucket": "heladeria-los-nietos-2026.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:911914831945:android:0bc4a206bf38abf334af98",
+        "android_client_info": {
+          "package_name": "ar.com.heladerialosnietos.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHLXIodak5WLhg7aFBqiae4Aag-NwyM18"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:911914831945:android:10c8bef4d24209f634af98",
+        "android_client_info": {
+          "package_name": "ar.com.heladerialosnietos.club"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHLXIodak5WLhg7aFBqiae4Aag-NwyM18"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

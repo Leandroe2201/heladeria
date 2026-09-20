@@ -34,15 +34,17 @@ jobs:
           mkdir -p app/src/pos
           echo "${{ secrets.GOOGLE_SERVICES_JSON_B64 }}" | base64 --decode > app/src/pos/google-services.json
 
-      - name: Crear Firebase Club desde Secret
+      - name: Verificar Firebase Club incluido en repositorio
         shell: bash
         run: |
-          if [ -z "${{ secrets.GOOGLE_SERVICES_CLUB_B64 }}" ]; then
-            echo "Falta el Secret GOOGLE_SERVICES_CLUB_B64 (Club clientes)"
+          if [ ! -s app/src/club/google-services.json ]; then
+            echo "Falta app/src/club/google-services.json"
             exit 1
           fi
-          mkdir -p app/src/club
-          echo "${{ secrets.GOOGLE_SERVICES_CLUB_B64 }}" | base64 --decode > app/src/club/google-services.json
+          grep -q 'ar.com.heladerialosnietos.club' app/src/club/google-services.json || {
+            echo "El google-services.json de Club no corresponde a ar.com.heladerialosnietos.club"
+            exit 1
+          }
 
       - name: Compilar APK POS y Club
         shell: bash
@@ -51,7 +53,9 @@ jobs:
           CLUB_URL="${{ vars.CLUB_PORTAL_URL }}"
           [ -z "$POS_URL" ] && POS_URL="http://200.234.232.76/login"
           [ -z "$CLUB_URL" ] && CLUB_URL="http://200.234.232.76/club"
-          gradle assemblePosDebug assembleClubDebug --no-daemon             -PPOS_PORTAL_URL="$POS_URL"             -PCLUB_PORTAL_URL="$CLUB_URL"
+          gradle assemblePosDebug assembleClubDebug --no-daemon \
+            -PPOS_PORTAL_URL="$POS_URL" \
+            -PCLUB_PORTAL_URL="$CLUB_URL"
 
       - name: Publicar APK POS
         uses: actions/upload-artifact@v4
