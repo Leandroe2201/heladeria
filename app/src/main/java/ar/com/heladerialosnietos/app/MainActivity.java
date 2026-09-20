@@ -26,6 +26,12 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.nio.charset.Charset;
+import java.text.Normalizer;
+import java.util.ArrayList;
+import java.util.List;
+
 import java.net.URI;
 
 public class MainActivity extends Activity {
@@ -171,21 +177,215 @@ public class MainActivity extends Activity {
         return false;
     }
 
+    private static byte[] b(int... values) {
+        byte[] out = new byte[values.length];
+        for (int i = 0; i < values.length; i++) out[i] = (byte) values[i];
+        return out;
+    }
+
+    private static String asciiSafe(String value) {
+        if (value == null) return "";
+        String n = Normalizer.normalize(value, Normalizer.Form.NFD)
+                .replaceAll("\\p{M}+", "");
+        return n.replace('ñ', 'n').replace('Ñ', 'N')
+                .replace('¡', ' ').replace('¿', ' ');
+    }
+
+    private static List<String> wrap32(String src) {
+        List<String> out = new ArrayList<>();
+        String text = src == null ? "" : src.trim();
+        if (text.length() <= 32) {
+            out.add(text);
+            return out;
+        }
+        while (text.length() > 32) {
+            int cut = text.lastIndexOf(' ', 32);
+            if (cut < 10) cut = 32;
+            out.add(text.substring(0, cut).trim());
+            text = text.substring(cut).trim();
+        }
+        out.add(text);
+        return out;
+    }
+
+    private static boolean isSeparator(String line) {
+        String t = line == null ? "" : line.trim();
+        return t.matches("[-=_]{8,}");
+    }
+
+    private static boolean looksLikeDate(String line) {
+        String t = line == null ? "" : line.trim();
+        return t.matches(".*\\d{4}[-/]\\d{2}[-/]\\d{2}.*") || t.matches(".*\\d{2}[-/]\\d{2}[-/]\\d{4}.*");
+    }
+
+    private static boolean isImportantTitle(String upper) {
+        return upper.contains("TICKET DE VENTA")
+                || upper.contains("ANULACION DE TICKET")
+                || upper.contains("CIERRE DE CAJA")
+                || upper.contains("APERTURA DE CAJA")
+                || upper.contains("COMPROBANTE DE FIDELIDAD")
+                || upper.startsWith("PEDIDO")
+                || upper.contains("PRUEBA RAWBT");
+    }
+
+    private static void writeBytes(ByteArrayOutputStream out, byte[] data) {
+        try { out.write(data); } catch (Exception ignored) {}
+    }
+
+    private static void writeText(ByteArrayOutputStream out, String text) {
+        try {
+            // CP850 es ampliamente compatible con impresoras ESC/POS genéricas.
+            out.write(asciiSafe(text).getBytes(Charset.forName("CP850")));
+        } catch (Exception e) {
+            try { out.write(asciiSafe(text).getBytes()); } catch (Exception ignored) {}
+        }
+    }
+
+    private static void style(ByteArrayOutputStream out, int align, boolean bold, int size) {
+        // ESC a n: 0 izquierda, 1 centro, 2 derecha
+        writeBytes(out, b(0x1B, 0x61, align));
+        // ESC E n: negrita
+        writeBytes(out, b(0x1B, 0x45, bold ? 1 : 0));
+        // GS ! n: tamaño. 0x01 = doble alto; 0x11 = doble ancho+alto
+        writeBytes(out, b(0x1D, 0x21, size));
+    }
+
+    private static void line(ByteArrayOutputStream out, String text, int align, boolean bold, int size) {
+        style(out, align, bold, size);
+        writeText(out, text);
+        writeBytes(out, b(0x0A));
+    }
+
+    /**
+     * Convierte el ticket de texto generado por Clouding en un ticket ESC/POS real de 58 mm.
+     * RawBT recibe bytes listos para la impresora, por lo que conserva centrado, negrita,
+     * tamaño del TOTAL y ancho de 32 columnas.
+     */
+    private static byte[] buildEscPos58(String source) {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        // Inicializar y seleccionar CP850.
+        writeBytes(out, b(0x1B, 0x40));
+        writeBytes(out, b(0x1B, 0x74, 0x02));
+
+        String normalized = (source == null ? "" : source).replace("\r\n", "\n").replace('\r', '\n');
+        String[] rows = normalized.split("\\n", -1);
+        boolean beforeFirstSeparator = true;
+        boolean storePrinted = false;
+
+        for (String raw : rows) {
+            String t = raw == null ? "" : raw.trim();
+            if (t.isEmpty()) {
+                style(out, 0, false, 0x00);
+                writeBytes(out, b(0x0A));
+                continue;
+            }
+            String upper = asciiSafe(t).toUpperCase();
+
+            if (isSeparator(t)) {
+                beforeFirstSeparator = false;
+                line(out, "--------------------------------", 0, false, 0x00);
+                continue;
+            }
+
+            // Primera línea: nombre del comercio. Doble alto, no doble ancho para no cortarlo.
+            if (!storePrinted) {
+                line(out, t, 1, true, 0x01);
+                storePrinted = true;
+                continue;
+            }
+
+            if (isImportantTitle(upper) || upper.startsWith("***")) {
+                for (String part : wrap32(t)) line(out, part, 1, true, 0x01);
+                continue;
+            }
+
+            if (looksLikeDate(t)) {
+                line(out, t, 1, false, 0x00);
+                continue;
+            }
+
+            if (upper.startsWith("TOTAL") || upper.contains("TOTAL ANULADO")) {
+                for (String part : wrap32(t)) line(out, part, 0, true, 0x01);
+                continue;
+            }
+
+            if (upper.startsWith("PAGO:") || upper.startsWith("VUELTO") || upper.startsWith("RECIBIDO")
+                    || upper.startsWith("PUNTOS ") || upper.contains("CANJE DE PUNTOS")) {
+                for (String part : wrap32(t)) line(out, part, 0, true, 0x00);
+                continue;
+            }
+
+            if (upper.equals("SISTEMA HELADERIA") || upper.contains("GRACIAS POR SU COMPRA")) {
+                for (String part : wrap32(t)) line(out, part, 1, true, 0x00);
+                continue;
+            }
+
+            // Dirección/teléfono antes del primer separador centrados como encabezado.
+            if (beforeFirstSeparator) {
+                for (String part : wrap32(t)) line(out, part, 1, false, 0x00);
+                continue;
+            }
+
+            // Resto del ticket: ancho fijo 32 columnas.
+            for (String part : wrap32(t)) line(out, part, 0, false, 0x00);
+        }
+
+        style(out, 0, false, 0x00);
+        writeBytes(out, b(0x0A, 0x0A, 0x0A, 0x0A));
+        return out.toByteArray();
+    }
+
+    /** V46: recibe los bytes ESC/POS ya generados por Clouding con el MISMO formato del sistema central. */
+    private void sendBase64ToRawBt(String base64Payload) {
+        final String b64 = base64Payload == null ? "" : base64Payload.trim();
+        if (b64.isEmpty()) return;
+        runOnUiThread(() -> {
+            try {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("rawbt:base64," + b64));
+                intent.setPackage(RAWBT_PACKAGE);
+                startActivity(intent);
+                return;
+            } catch (Exception ignored) {}
+            try {
+                Intent intent = new Intent(RAWBT_ACTION);
+                intent.putExtra(RAWBT_EXTRA, "base64," + b64);
+                intent.setPackage(RAWBT_PACKAGE);
+                startActivity(intent);
+            } catch (Exception ignored) {}
+        });
+    }
+
     private void sendToRawBt(String text) {
         final String payload = text == null ? "" : text;
         runOnUiThread(() -> {
+            // V45: enviar RAW ESC/POS en base64. Es el método oficial para conservar formato.
             try {
-                Intent intent = new Intent(RAWBT_ACTION);
-                intent.putExtra(RAWBT_EXTRA, payload);
+                byte[] escpos = buildEscPos58(payload);
+                String base64 = android.util.Base64.encodeToString(escpos, android.util.Base64.NO_WRAP);
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("rawbt:base64," + base64));
                 intent.setPackage(RAWBT_PACKAGE);
                 startActivity(intent);
                 return;
             } catch (Exception ignored) {}
 
+            // Fallback: acción específica RawBT con el mismo bloque binario codificado.
             try {
-                Intent viewIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("rawbt:" + payload));
-                viewIntent.setPackage(RAWBT_PACKAGE);
-                startActivity(viewIntent);
+                byte[] escpos = buildEscPos58(payload);
+                String base64 = "base64," + android.util.Base64.encodeToString(escpos, android.util.Base64.NO_WRAP);
+                Intent intent = new Intent(RAWBT_ACTION);
+                intent.putExtra(RAWBT_EXTRA, base64);
+                intent.setPackage(RAWBT_PACKAGE);
+                startActivity(intent);
+                return;
+            } catch (Exception ignored) {}
+
+            // Último fallback: texto plano.
+            try {
+                Intent sendIntent = new Intent(Intent.ACTION_SEND);
+                sendIntent.setType("text/plain");
+                sendIntent.putExtra(Intent.EXTRA_TEXT, payload);
+                sendIntent.setPackage(RAWBT_PACKAGE);
+                startActivity(sendIntent);
                 return;
             } catch (Exception ignored) {}
 
@@ -201,6 +401,11 @@ public class MainActivity extends Activity {
         @JavascriptInterface
         public void print(String text) {
             sendToRawBt(text);
+        }
+
+        @JavascriptInterface
+        public void printBase64(String base64Payload) {
+            sendBase64ToRawBt(base64Payload);
         }
     }
 
