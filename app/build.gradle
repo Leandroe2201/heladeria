@@ -3,9 +3,10 @@ plugins {
     id 'com.google.gms.google-services'
 }
 
-def portalUrl = project.findProperty('PORTAL_URL') ?: 'https://ckhgs28k-5050.brs.devtunnels.ms/club'
+def posPortalUrl = project.findProperty('POS_PORTAL_URL') ?: 'http://200.234.232.76/login'
+def clubPortalUrl = project.findProperty('CLUB_PORTAL_URL') ?: 'http://200.234.232.76/club'
 
-def escapedPortalUrl = portalUrl.replace('\\', '\\\\').replace('"', '\\"')
+def esc = { s -> s.replace('\\', '\\\\').replace('"', '\"') }
 
 android {
     namespace 'ar.com.heladerialosnietos.app'
@@ -15,9 +16,26 @@ android {
         applicationId 'ar.com.heladerialosnietos.app'
         minSdk 23
         targetSdk 36
-        versionCode 1
-        versionName '1.0.0'
-        buildConfigField 'String', 'PORTAL_URL', '"' + escapedPortalUrl + '"'
+        versionCode 3
+        versionName '1.2.0'
+    }
+
+    flavorDimensions 'portal'
+    productFlavors {
+        pos {
+            dimension 'portal'
+            applicationId 'ar.com.heladerialosnietos.app'
+            manifestPlaceholders = [appLabel: 'Heladería Los Nietos POS']
+            buildConfigField 'String', 'PORTAL_URL', '"' + esc(posPortalUrl) + '"'
+            buildConfigField 'boolean', 'ENABLE_CLUB_PUSH', 'false'
+        }
+        club {
+            dimension 'portal'
+            applicationId 'ar.com.heladerialosnietos.club'
+            manifestPlaceholders = [appLabel: 'Los Nietos Club']
+            buildConfigField 'String', 'PORTAL_URL', '"' + esc(clubPortalUrl) + '"'
+            buildConfigField 'boolean', 'ENABLE_CLUB_PUSH', 'true'
+        }
     }
 
     buildFeatures {

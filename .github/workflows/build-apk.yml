@@ -1,4 +1,4 @@
-name: Build Android APK
+name: Build Android APK - POS + Club
 
 on:
   workflow_dispatch:
@@ -24,28 +24,45 @@ jobs:
         with:
           gradle-version: '8.13'
 
-      - name: Crear google-services.json desde Secret
+      - name: Crear Firebase POS desde Secret existente
         shell: bash
         run: |
           if [ -z "${{ secrets.GOOGLE_SERVICES_JSON_B64 }}" ]; then
-            echo "Falta el Secret GOOGLE_SERVICES_JSON_B64"
+            echo "Falta el Secret GOOGLE_SERVICES_JSON_B64 (POS)"
             exit 1
           fi
-          echo "${{ secrets.GOOGLE_SERVICES_JSON_B64 }}" | base64 --decode > app/google-services.json
+          mkdir -p app/src/pos
+          echo "${{ secrets.GOOGLE_SERVICES_JSON_B64 }}" | base64 --decode > app/src/pos/google-services.json
 
-      - name: Compilar APK
+      - name: Crear Firebase Club desde Secret
         shell: bash
         run: |
-          PORTAL="${{ vars.PORTAL_URL }}"
-          if [ -z "$PORTAL" ]; then
-            gradle assembleDebug --no-daemon
-          else
-            gradle assembleDebug --no-daemon -PPORTAL_URL="$PORTAL"
+          if [ -z "${{ secrets.GOOGLE_SERVICES_CLUB_B64 }}" ]; then
+            echo "Falta el Secret GOOGLE_SERVICES_CLUB_B64 (Club clientes)"
+            exit 1
           fi
+          mkdir -p app/src/club
+          echo "${{ secrets.GOOGLE_SERVICES_CLUB_B64 }}" | base64 --decode > app/src/club/google-services.json
 
-      - name: Publicar APK como artefacto
+      - name: Compilar APK POS y Club
+        shell: bash
+        run: |
+          POS_URL="${{ vars.POS_PORTAL_URL }}"
+          CLUB_URL="${{ vars.CLUB_PORTAL_URL }}"
+          [ -z "$POS_URL" ] && POS_URL="http://200.234.232.76/login"
+          [ -z "$CLUB_URL" ] && CLUB_URL="http://200.234.232.76/club"
+          gradle assemblePosDebug assembleClubDebug --no-daemon             -PPOS_PORTAL_URL="$POS_URL"             -PCLUB_PORTAL_URL="$CLUB_URL"
+
+      - name: Publicar APK POS
         uses: actions/upload-artifact@v4
         with:
-          name: Heladeria-Los-Nietos-APK
-          path: app/build/outputs/apk/debug/app-debug.apk
+          name: Heladeria-Los-Nietos-POS-APK
+          path: app/build/outputs/apk/pos/debug/app-pos-debug.apk
+          if-no-files-found: error
+
+      - name: Publicar APK Club
+        uses: actions/upload-artifact@v4
+        with:
+          name: Los-Nietos-Club-APK
+          path: app/build/outputs/apk/club/debug/app-club-debug.apk
           if-no-files-found: error

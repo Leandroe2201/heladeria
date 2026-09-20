@@ -48,8 +48,10 @@ public class MainActivity extends Activity {
         retry.setOnClickListener(v -> loadPortal());
 
         configureWebView();
-        askNotificationPermissionIfNeeded();
-        loadFcmToken();
+        if (BuildConfig.ENABLE_CLUB_PUSH) {
+            askNotificationPermissionIfNeeded();
+            loadFcmToken();
+        }
 
         String fromNotification = getIntent().getStringExtra("url");
         if (fromNotification != null && !fromNotification.trim().isEmpty()) {
@@ -183,6 +185,7 @@ public class MainActivity extends Activity {
     }
 
     private void registerPushTokenInPortal() {
+        if (!BuildConfig.ENABLE_CLUB_PUSH) return;
         if (webView == null) return;
         if (fcmToken == null || fcmToken.isEmpty()) {
             fcmToken = getSharedPreferences("push", MODE_PRIVATE).getString("token", "");
